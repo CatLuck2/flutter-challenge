@@ -19,12 +19,13 @@ class MyApp extends StatelessWidget {
           routeObserver
         ],
         routes: {
-          '/MapSample': (_) => MapSample(
-              CameraPosition(
-                target: LatLng(0.0, 0.0),
-                zoom: 14.4746,
-              ),
-              routeObserver),
+          '/MapSample': (_) =>
+              MapSample(
+                  CameraPosition(
+                    target: LatLng(0.0, 0.0),
+                    zoom: 14.4746,
+                  ),
+                  routeObserver),
         },
         home: Scaffold(
           appBar: AppBar(title: Text('充電スポット一覧')),
@@ -46,7 +47,9 @@ class ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery.of(context).size;
+    final _screenSize = MediaQuery
+        .of(context)
+        .size;
     return ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
@@ -130,14 +133,14 @@ class ListPageState extends State<ListPage> {
                                 ..onTap = () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return MapSample(
-                                        CameraPosition(
-                                          target: LatLng(35.685255491019944,
-                                              139.76962079504972),
-                                          zoom: 14.4746,
-                                        ),
-                                        routeObserver);
-                                  }));
+                                        return MapSample(
+                                            CameraPosition(
+                                              target: LatLng(35.685255491019944,
+                                                  139.76962079504972),
+                                              zoom: 14.4746,
+                                            ),
+                                            routeObserver);
+                                      }));
                                 },
                             ),
                           ],
@@ -192,11 +195,20 @@ class MapSampleState extends State<MapSample> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    final _screenSize = MediaQuery.of(context).size;
+    final _screenSize = MediaQuery
+        .of(context)
+        .size;
+    Set<Marker> _markers = {
+      Marker(
+        markerId: MarkerId("marker1"),
+        position: LatLng(35.685255491019944, 139.76962079504972),
+      )
+    };
     return new Scaffold(
       body: Stack(
         children: [
           GoogleMap(
+            markers: _markers,
             mapType: MapType.normal,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
@@ -281,13 +293,33 @@ class MapSampleState extends State<MapSample> with RouteAware {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      TextButton(
-                        child: const Text('地図アプリで経路を見る'),
-                        onPressed: () {
-                          /* ... */
-                        },
+                      const SizedBox(width: 10),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline),
+                              text: '地図アプリで経路を見る',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return MapSample(
+                                            CameraPosition(
+                                              target: LatLng(35.685255491019944,
+                                                  139.76962079504972),
+                                              zoom: 14.4746,
+                                            ),
+                                            routeObserver);
+                                      }));
+                                },
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 8)
                     ],
                   ),
                 ],
