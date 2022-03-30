@@ -1,24 +1,25 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
-  runApp(
-    MyApp()
-  );
+  runApp(MyApp());
 }
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
-  /// MyApp
+/// MyApp
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        navigatorObservers: <NavigatorObserver>[routeObserver],
+        navigatorObservers: <NavigatorObserver>[
+          routeObserver
+        ],
         routes: {
-          '/MapSample' : (_) => MapSample(
+          '/MapSample': (_) => MapSample(
               CameraPosition(
                 target: LatLng(0.0, 0.0),
                 zoom: 14.4746,
@@ -28,8 +29,7 @@ class MyApp extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(title: Text('充電スポット一覧')),
           body: ListPage(),
-        )
-    );
+        ));
   }
 }
 
@@ -39,7 +39,6 @@ class ListPage extends StatefulWidget {
 }
 
 class ListPageState extends State<ListPage> {
-
   @override
   void initState() {
     super.initState();
@@ -51,92 +50,106 @@ class ListPageState extends State<ListPage> {
     return ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return GestureDetector (
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return MapSample(
-                    CameraPosition(
-                      target: LatLng(35.685255491019944, 139.76962079504972),
-                      zoom: 14.4746,
-                    ),
-                    routeObserver
-                );
-              }));
-            },
-            child: Container(
-              margin: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 5.0),
-              width: _screenSize.width * 0.8,
-              height: _screenSize.height * 0.4,
-              child: Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset('lib/images/image1.png', width: 150,),
-                        Image.asset('lib/images/image1.png', width: 150,),
-                      ],
-                    ),
-                    ListTile(
-                      title: Text('日本ビル'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(width: 10),
-                        Text('利用可能'),
-                        const SizedBox(width: 50),
-                        Text('6'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(width: 10),
-                        Text('充電出力'),
-                        const SizedBox(width: 50),
-                        Text('3.2kW, 6.0kW')
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(width: 10),
-                        Text('営業中'),
-                        const SizedBox(width: 50),
-                        Text('10:00 ~ 20:00'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(width: 10),
-                        Text('定休日'),
-                        const SizedBox(width: 50),
-                        Text('第三土曜日')
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        TextButton(
-                          child: const Text('地図アプリで経路を見る',style: TextStyle(height: 1.0),),
-                          onPressed: () {/* ... */},
+          return Container(
+            margin: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 5.0),
+            width: _screenSize.width * 0.8,
+            height: _screenSize.height * 0.4,
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'lib/images/image1.png',
+                        width: 150,
+                      ),
+                      Image.asset(
+                        'lib/images/image1.png',
+                        width: 150,
+                      ),
+                    ],
+                  ),
+                  ListTile(
+                    title: Text('日本ビル'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(width: 10),
+                      Text('利用可能'),
+                      const SizedBox(width: 50),
+                      Text('6'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(width: 10),
+                      Text('充電出力'),
+                      const SizedBox(width: 50),
+                      Text('3.2kW, 6.0kW')
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(width: 10),
+                      Text('営業中'),
+                      const SizedBox(width: 50),
+                      Text('10:00 ~ 20:00'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(width: 10),
+                      Text('定休日'),
+                      const SizedBox(width: 50),
+                      Text('第三土曜日')
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(width: 10),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline),
+                              text: '地図アプリで経路を見る',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return MapSample(
+                                        CameraPosition(
+                                          target: LatLng(35.685255491019944,
+                                              139.76962079504972),
+                                          zoom: 14.4746,
+                                        ),
+                                        routeObserver);
+                                  }));
+                                },
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 8)
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );
-        }
-    );
+        });
   }
 }
 
@@ -148,7 +161,8 @@ class MapSample extends StatefulWidget {
   MapSample(this._selectedCameraPosition, this.routeObserver);
 
   @override
-  State<MapSample> createState() => MapSampleState(_selectedCameraPosition, routeObserver);
+  State<MapSample> createState() =>
+      MapSampleState(_selectedCameraPosition, routeObserver);
 }
 
 class MapSampleState extends State<MapSample> with RouteAware {
@@ -172,11 +186,13 @@ class MapSampleState extends State<MapSample> with RouteAware {
 
   Future<void> didPush() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_selectedCameraPosition));
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(_selectedCameraPosition));
   }
 
   @override
   Widget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return new Scaffold(
       body: Stack(
         children: [
@@ -192,10 +208,10 @@ class MapSampleState extends State<MapSample> with RouteAware {
             child: Form(
               child: TextFormField(
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    fillColor: Colors.lightGreenAccent,
-                    filled: true,
-                    hintText: 'このエリアでポートを検索',
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.lightGreenAccent,
+                  filled: true,
+                  hintText: 'このエリアでポートを検索',
                 ),
               ),
             ),
@@ -203,38 +219,28 @@ class MapSampleState extends State<MapSample> with RouteAware {
           Container(
             alignment: Alignment.bottomCenter,
             child: Card(
-              color: Colors.orange,
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        height: 80,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          // color: Colors.green,
-                          image: DecorationImage(
-                              fit: BoxFit.fitWidth,
-                              image: AssetImage("lib/images/image1.png")
-                          ),
-                        ),
+                      Image.asset(
+                        'lib/images/image1.png',
+                        width: 150,
                       ),
-                      Container(
-                        height: 80,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          // color: Colors.green,
-                          image: DecorationImage(
-                              fit: BoxFit.fitWidth,
-                              image: AssetImage("lib/images/image1.png")
-                          ),
-                        ),
+                      Image.asset(
+                        'lib/images/image1.png',
+                        width: 150,
                       ),
                     ],
                   ),
-                  const ListTile(
-                    title: Text('The Enchanted Nightingale'),
+                  ListTile(
+                    title: Text('日本ビル'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -242,7 +248,7 @@ class MapSampleState extends State<MapSample> with RouteAware {
                       const SizedBox(width: 10),
                       Text('利用可能'),
                       const SizedBox(width: 50),
-                      Text('10')
+                      Text('6'),
                     ],
                   ),
                   Row(
@@ -251,7 +257,7 @@ class MapSampleState extends State<MapSample> with RouteAware {
                       const SizedBox(width: 10),
                       Text('充電出力'),
                       const SizedBox(width: 50),
-                      Text('10')
+                      Text('3.2kW, 6.0kW')
                     ],
                   ),
                   Row(
@@ -260,7 +266,7 @@ class MapSampleState extends State<MapSample> with RouteAware {
                       const SizedBox(width: 10),
                       Text('営業中'),
                       const SizedBox(width: 50),
-                      Text('10')
+                      Text('10:00 ~ 20:00'),
                     ],
                   ),
                   Row(
@@ -269,7 +275,7 @@ class MapSampleState extends State<MapSample> with RouteAware {
                       const SizedBox(width: 10),
                       Text('定休日'),
                       const SizedBox(width: 50),
-                      Text('10')
+                      Text('第三土曜日')
                     ],
                   ),
                   Row(
@@ -277,7 +283,9 @@ class MapSampleState extends State<MapSample> with RouteAware {
                     children: <Widget>[
                       TextButton(
                         child: const Text('地図アプリで経路を見る'),
-                        onPressed: () {/* ... */},
+                        onPressed: () {
+                          /* ... */
+                        },
                       ),
                       const SizedBox(width: 8)
                     ],
