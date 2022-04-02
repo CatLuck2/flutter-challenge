@@ -1,14 +1,46 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
+  fetch();
   runApp(MyApp());
 }
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+class Post {
+  final String title;
+  Post({required this.title});
+  factory Post.fromJson(Map<String, dynamic> json) => Post(
+    title: json["charger_spots"],
+  );
+}
+
+void fetch() async {
+  Uri uri = Uri.parse("https://stg.evene.jp/api/charger_spots");
+  var header = {
+    "Content-Type": "application/json",
+    'X-EVENE-NATIVE-API-TOKEN': ''
+  };
+  String body = json.encode({
+    'sw_lat': '35.683331703634124',
+    'sw_lng': '139.7657155055581',
+    'ne_lat': '35.686849507072736',
+    'ne_lng': '139.77340835691592'
+  });
+  try {
+    final post = await http.post(uri, headers: header, body: body);
+    print(post.body);
+    // return Post.fromJson(json.decode(post.body));
+  } on Exception catch (e) {
+    print(e);
+    rethrow;
+  }
+}
 
 /// MyApp
 class MyApp extends StatelessWidget {
